@@ -79,7 +79,9 @@ contract kipuBank {
 		
 	
 		emit kipubank_Deposito(msg.sender, msg.value);
+		unchecked{
 		++s_oper_depo_total;
+		}
 	}
 	
 	/*
@@ -101,7 +103,9 @@ contract kipuBank {
 		
 
 		emit kipubank_ExtraccionHecha(msg.sender, _monto);
+		unchecked{
 		++s_oper_ext_total;
+		}
 		
 	}
 	
