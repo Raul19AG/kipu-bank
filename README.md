@@ -18,7 +18,7 @@ SO windows o Linux, Browsers Explorer, Chrome v.xxx, Firefox V.xxx o posteriores
 # Pasos de la descarga:
 Instalción a traves de dispositivos extraibles..,
 Clona el repositorio: git clone <https://github.com/Raul19AG/kipu-bank>
-# Deployed in https://sepolia.etherscan.io/address/0x745a7a07ae4b249222cf415c8a061a6542950788#code
+# Deployed in https://sepolia.etherscan.io/address/0xfc8e0478aaaa73e41e882367b5ff0cf4f9eb9b5b#code
 
 ## Guía del usuario
 
