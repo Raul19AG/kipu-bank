@@ -1,4 +1,4 @@
-## Título de la documentación: Documentación del contrato kipubank
+## Título de la documentación: Documentación del contrato kipuBank
 
 ## Introducción
 Finalidad del documento: Este documento proporciona información completa sobre el contrato Kipu-bank, sus características, instalación y guía de usuario.
