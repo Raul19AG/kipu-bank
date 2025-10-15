@@ -37,8 +37,8 @@ el boton s_depositos tiene un campo para ingresar el adress del usuario, con el 
 # Como interactuar con el contrato:
 Funcion deposit: es la utilizada para Ingresar dinero al la cuenta, emite un evento a la blockchain, incrementa la variable s_oper_depo_total
 Funcion extraccion: es para realizar extracciones, recibe un parametro uint256, llama una funcion privada, emite un evento a la blockchain, incrementa la variable s_oper_ext_total.
-Funcion getOpe_depo_total: visualiza el registro total de operaciones de DEPOSITO realizadas hasta el momento.
-Funcion getOpe_ext_total: visualiza el registro total de operaciones de EXTRACION realizadas hasta el momento.
+Boton getOpe_depo_total: visualiza el registro total de operaciones de DEPOSITO realizadas hasta el momento.
+Boton getOpe_ext_total: visualiza el registro total de operaciones de EXTRACION realizadas hasta el momento.
 
 
 ## Enlace del contrato en el Block chain:
