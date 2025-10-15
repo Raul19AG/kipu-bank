@@ -12,14 +12,13 @@ contract kipuBank {
 	/*///////////////////////
 					Variables
 	///////////////////////*/
-	///@notice variable Inmutable para almacenar el address que puede realizar retiros
 	///@notice variable Inmutable Monto de extraccion maxima
 	///@notice variable Inmutable para almacenar el capital del banco
 	///@notice variable para almacenar el total de depositos
 	///@notice variable para almacenar el total de extracciones	 
-	//address immutable i_beneficiario;
-	uint256 i_extMax =10*10**18;
-	uint256 i_bankCap;
+	
+	uint256 immutable i_extMax ;
+	uint256 immutable i_bankCap;
 	uint256 public  s_oper_depo_total;
 	uint256 public s_oper_ext_total;
 
@@ -66,15 +65,10 @@ contract kipuBank {
 	constructor(){
 		//i_beneficiario = msg.sender;
 		i_bankCap = 90*10**18;
-		i_extMax = i_extMax;
+		i_extMax = 10*10**18;
 
 	}
-	
-	
-	///@notice funcion para extraer directamente
-	receive() external payable{}
-	fallback() external{}
-	
+		
 	/**
 		*@notice funcion para realizar depositos
 		*@dev esta funcion debe sumar el valor depositado a s_depositos
