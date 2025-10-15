@@ -7,7 +7,7 @@ pragma solidity >0.8.0;
 	*@author ale
 	*@custom:security base .
 	*/
-contract kipubank {
+contract kipuBank {
 
 	/*///////////////////////
 					Variables
