@@ -2,7 +2,7 @@
 pragma solidity >0.8.0;
 
 /**
-	*@title Contrato kipu-bank
+	*@title Contrato kipuBank
 	*@notice Este contrato es el tabajo final M2.
 	*@author ale
 	*@custom:security base .
@@ -17,11 +17,11 @@ contract kipubank {
 	///@notice variable Inmutable para almacenar el capital del banco
 	///@notice variable para almacenar el total de depositos
 	///@notice variable para almacenar el total de extracciones	 
-	address immutable i_beneficiario;
-	uint256 i_extMax =100*10**18;
+	//address immutable i_beneficiario;
+	uint256 i_extMax =10*10**18;
 	uint256 i_bankCap;
-	uint256 s_oper_depo_total;
-	uint256 s_oper_ext_total;
+	uint256 public  s_oper_depo_total;
+	uint256 public s_oper_ext_total;
 
 	
 	///@notice mapping para almacenar el valor dado por el usuário
@@ -52,9 +52,9 @@ contract kipubank {
 					Modifiers
     //////////////////////*/
 	///@notice modificador para validar el beneficiario
-	modifier soloBeneficiario() {
-		if(msg.sender != i_beneficiario){
-			revert kipubank_ClienteNoValido(msg.sender, i_beneficiario);
+	modifier MontoInvalido() {
+		if(msg.value > i_bankCap || msg.value <= 0){
+			revert KipubanK_MontoInvalido("Monto Invalido");
 		}
 		_;
 	}
@@ -63,9 +63,9 @@ contract kipubank {
 	/*///////////////////////
 					Functions
 	///////////////////////*/
-	constructor(address _beneficiario){
-		i_beneficiario = _beneficiario;
-		i_bankCap = i_bankCap;
+	constructor(){
+		//i_beneficiario = msg.sender;
+		i_bankCap = 90*10**18;
 		i_extMax = i_extMax;
 
 	}
@@ -80,8 +80,8 @@ contract kipubank {
 		*@dev esta funcion debe sumar el valor depositado a s_depositos
 		*@dev esta funcion precisas emitir el evento KipubanK_Deposito.
 	*/
-	function deposit() external payable {
-		s_depositos[msg.sender] = s_depositos[msg.sender] + msg.value;
+	function deposit() external payable MontoInvalido{
+				s_depositos[msg.sender] = s_depositos[msg.sender] + msg.value;
 		
 	
 		emit kipubank_Deposito(msg.sender, msg.value);
@@ -94,7 +94,7 @@ contract kipubank {
 		*@dev solo el titualr de la cuenta puede realizar la extraccion
 		*@param _monto valor a ser extraido
 	*/
-	function extraccion(uint256 _monto) external soloBeneficiario{
+	function extraccion(uint256 _monto) external {
 		if(_monto > i_extMax) revert  KipubanK_MontoMaxExcedido();
 		if(_monto > s_depositos[msg.sender]) revert KipubanK_MontoInvalido("saldo Insuficiente");
 		//address payable to = payable (msg.sender);
@@ -121,25 +121,5 @@ contract kipubank {
 		if(!sucess) revert kipubank_TransaccionFallo(error);
 	}
 
-	/*
-		*@notice funcion que permite ver la cantidad total de op de deposito hechas
-		*@param oper_dep_total
-		*@dev retorna la cantidad total de op de dep hechas
-	*/
-	function getOpe_depo_total() public view returns (uint256) {
-		uint256 oper_depo_total_ = s_oper_depo_total;
-		return oper_depo_total_;
-	}
-    
-	/*
-		*@notice funcion que permite ver la cantidad total de op de extracciones hechas
-		*@param oper_ext_total
-		*@dev retorna la cantidad total de op de ext hechas
-	*/
-    function getOpe_ext_total() public view returns (uint256) {
-		uint256 oper_ext_total_ = s_oper_ext_total;
-		return oper_ext_total_;
-	
-	}
 	
 }
