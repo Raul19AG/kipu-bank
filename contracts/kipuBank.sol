@@ -93,15 +93,8 @@ contract kipuBank {
 	function extraccion(uint256 _monto) external {
 		if(_monto > i_extMax) revert  KipubanK_MontoMaxExcedido();
 		if(_monto > s_depositos[msg.sender]) revert KipubanK_MontoInvalido("saldo Insuficiente");
-		//address payable to = payable (msg.sender);
-		//to.transfer(_monto);
 		_transferirEth(_monto);
 		s_depositos[msg.sender] = s_depositos[msg.sender] - _monto;
-		//mi_Balance = mi_Balance - _monto;
-		
-        //(_monto > mi_Balance)? revert() : s_depositos[msg.sender] -= _monto;
-		
-
 		emit kipubank_ExtraccionHecha(msg.sender, _monto);
 		unchecked{
 		++s_oper_ext_total;
@@ -124,5 +117,4 @@ contract kipuBank {
    function getMyBalance() private returns (uint256) {
         return address(this).balance;
     }
-	
 }
