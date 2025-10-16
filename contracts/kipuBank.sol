@@ -13,16 +13,14 @@ contract kipuBank {
 					Variables
 	///////////////////////*/
 	///@notice variable Inmutable Monto de extraccion maxima
-	///@notice variable Inmutable para almacenar el capital del banco
-	///@notice variable para almacenar el total de depositos
-	///@notice variable para almacenar el total de extracciones	 
-	
 	uint256 immutable i_extMax ;
+	///@notice variable Inmutable para almacenar el limite global de deposito
 	uint256 immutable i_bankCap;
+    ///@notice variable para almacenar el total de operaciones depositos
 	uint256 public  s_oper_depo_total;
+    ///@notice variable para almacenar el total de operaciones extracciones
 	uint256 public s_oper_ext_total;
-
-	
+    	
 	///@notice mapping para almacenar el valor dado por el usuário
 	mapping(address usuario => uint256 valor) public s_depositos;
 	
@@ -62,10 +60,11 @@ contract kipuBank {
 	/*///////////////////////
 					Functions
 	///////////////////////*/
-	constructor(){
+	constructor(uint256 _limite){
 		//i_beneficiario = msg.sender;
-		i_bankCap = 90*10**18;
+		i_bankCap = _limite;
 		i_extMax = 10*10**18;
+		
 
 	}
 		
@@ -75,7 +74,8 @@ contract kipuBank {
 		*@dev esta funcion precisas emitir el evento KipubanK_Deposito.
 	*/
 	function deposit() external payable MontoInvalido{
-				s_depositos[msg.sender] = s_depositos[msg.sender] + msg.value;
+		    		s_depositos[msg.sender] = s_depositos[msg.sender] + msg.value;
+					if(getMyBalance()>=i_bankCap) revert KipubanK_MontoInvalido("Capacidad Maxima del Banco");
 		
 	
 		emit kipubank_Deposito(msg.sender, msg.value);
@@ -106,11 +106,10 @@ contract kipuBank {
 		unchecked{
 		++s_oper_ext_total;
 		}
-		
 	}
 	
 	/*
-		*@notice funçion privada para realizar  transferência de ether
+		*@notice funcion privada para realizar  transferência de ether
 		*@param _monto valor a ser transferido
 		*@dev precisa revert si falla
 	*/
@@ -118,6 +117,12 @@ contract kipuBank {
 		(bool sucess, bytes memory error) = msg.sender.call{value: _monto}("");
 		if(!sucess) revert kipubank_TransaccionFallo(error);
 	}
-
+    /*
+		*@notice funcion privada para obtener el balance del contrato actual
+		*@retorna el balance del contrato
+		*/
+   function getMyBalance() private returns (uint256) {
+        return address(this).balance;
+    }
 	
 }
