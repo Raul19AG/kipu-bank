@@ -18,7 +18,7 @@ SO windows o Linux, Browsers Explorer, Chrome v.xxx, Firefox V.xxx o posteriores
 # Pasos de la descarga:
 Instalción a traves de dispositivos extraibles..,
 Clona el repositorio: git clone <https://github.com/Raul19AG/kipu-bank>
-# Deployed in https://sepolia.etherscan.io/address/0xfc8e0478aaaa73e41e882367b5ff0cf4f9eb9b5b#code
+# Deployed in https://sepolia.etherscan.io/address/0x1f733f4330ad281e25c7c355593821fb1a1376ff#code
 
 ## Guía del usuario
 
@@ -29,13 +29,13 @@ Kipu-bank.sol
 README.md
 abrir: Kipu-bank.sol
 1.-Compilar con solidity compiler
-2.-Click en Deploy and run transactions, en el panel de navegacion que se desplega seleccionar la VM requeriada, scrolear hacia abajo, en deployed contracts
+2.-Click en Deploy and run transactions, en el panel de navegacion que se desplega seleccionar la VM requeriada, scrolear hacia abajo, en deployed contracts colocar la cantidad limites de de eth en WEI.
 clickear en Kipu-bank AT 0x..., se desplegara los botones deposit, extraccion con un campo de entrada en el cual se ingresa el monto deseado, con el boton getOpe_depo se Visualiza la cantidad de operaciones de deposito realizadas hasta ese momento;
 con el boton getOpe_ext se visualiza la cantidad de operaciones de extraccion realizadas hasta ese momento;
 el boton s_depositos tiene un campo para ingresar el adress del usuario, con el cual se visualiza EL BALANCE del mismo.
 
 # Como interactuar con el contrato:
-Funcion deposit: es la utilizada para Ingresar dinero al la cuenta, emite un evento a la blockchain, incrementa la variable s_oper_depo_total
+Funcion deposit: es la utilizada para Ingresar dinero al la cuenta,  emite un evento a la blockchain, incrementa la variable s_oper_depo_total
 Funcion extraccion: es para realizar extracciones, recibe un parametro uint256, llama una funcion privada, emite un evento a la blockchain, incrementa la variable s_oper_ext_total.
 Boton getOpe_depo_total: visualiza el registro total de operaciones de DEPOSITO realizadas hasta el momento.
 Boton getOpe_ext_total: visualiza el registro total de operaciones de EXTRACION realizadas hasta el momento.
