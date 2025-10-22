@@ -74,11 +74,10 @@ contract kipuBank {
 		*@dev esta funcion precisas emitir el evento KipubanK_Deposito.
 	*/
 	function deposit() external payable MontoInvalido{
+                    emit kipubank_Deposito(msg.sender, msg.value);
 		    		s_depositos[msg.sender] = s_depositos[msg.sender] + msg.value;
 					if(getMyBalance()>=i_bankCap) revert KipubanK_MontoInvalido("Capacidad Maxima del Banco");
-		
-	
-		emit kipubank_Deposito(msg.sender, msg.value);
+				
 		unchecked{
 		++s_oper_depo_total;
 		}
@@ -94,8 +93,8 @@ contract kipuBank {
 		if(_monto > i_extMax) revert  KipubanK_MontoMaxExcedido();
 		if(_monto > s_depositos[msg.sender]) revert KipubanK_MontoInvalido("saldo Insuficiente");
 		_transferirEth(_monto);
+        emit kipubank_ExtraccionHecha(msg.sender, _monto);
 		s_depositos[msg.sender] = s_depositos[msg.sender] - _monto;
-		emit kipubank_ExtraccionHecha(msg.sender, _monto);
 		unchecked{
 		++s_oper_ext_total;
 		}
