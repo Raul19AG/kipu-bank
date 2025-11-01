@@ -7,7 +7,7 @@ pragma solidity >0.8.0;
 	*@author ale
 	*@custom:security base .
 	*/
-contract kipuBank {
+contract KipuBank {
 
 	/*///////////////////////
 					Variables
@@ -17,7 +17,7 @@ contract kipuBank {
 	///@notice variable Inmutable para almacenar el limite global de deposito
 	uint256 immutable i_bankCap;
     ///@notice variable para almacenar el total de operaciones depositos
-	uint256 public  s_oper_depo_total;
+	uint256  public  s_oper_depo_total;
     ///@notice variable para almacenar el total de operaciones extracciones
 	uint256 public s_oper_ext_total;
     	
@@ -60,6 +60,10 @@ contract kipuBank {
 	/*///////////////////////
 					Functions
 	///////////////////////*/
+	/**
+    * @param _limite Límite global de depósitos en el banco (en wei).
+    * @dev i_extMax se fija en 10 ETH (10*10^18 wei) como máximo por extracción.
+    */
 	constructor(uint256 _limite){
 		//i_beneficiario = msg.sender;
 		i_bankCap = _limite;
@@ -74,13 +78,13 @@ contract kipuBank {
 		*@dev esta funcion precisas emitir el evento KipubanK_Deposito.
 	*/
 	function deposit() external payable MontoInvalido{
-                    emit kipubank_Deposito(msg.sender, msg.value);
+                    if(getMyBalance()+ msg.value >=i_bankCap) revert KipubanK_MontoInvalido("Capacidad Maxima del Banco");
+					emit kipubank_Deposito(msg.sender, msg.value);
 		    		s_depositos[msg.sender] = s_depositos[msg.sender] + msg.value;
-					if(getMyBalance()>=i_bankCap) revert KipubanK_MontoInvalido("Capacidad Maxima del Banco");
+					
 				
-		unchecked{
 		++s_oper_depo_total;
-		}
+		
 	}
 	
 	/*
@@ -92,12 +96,13 @@ contract kipuBank {
 	function extraccion(uint256 _monto) external {
 		if(_monto > i_extMax) revert  KipubanK_MontoMaxExcedido();
 		if(_monto > s_depositos[msg.sender]) revert KipubanK_MontoInvalido("saldo Insuficiente");
-		_transferirEth(_monto);
-        emit kipubank_ExtraccionHecha(msg.sender, _monto);
 		s_depositos[msg.sender] = s_depositos[msg.sender] - _monto;
-		unchecked{
-		++s_oper_ext_total;
-		}
+		emit kipubank_ExtraccionHecha(msg.sender, _monto);
+		 ++ s_oper_ext_total;
+		_transferirEth(_monto);
+        		
+		
+		
 	}
 	
 	/*
